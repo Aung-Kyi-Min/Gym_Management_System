@@ -24,7 +24,7 @@ class WorkoutRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|unique:workouts',
+            'name' => 'required|string|unique:workouts,name',
             'price' => 'required|integer',
             'image' => 'required|file|mimes:png,jpg,jpeg',
             'description' => 'required',

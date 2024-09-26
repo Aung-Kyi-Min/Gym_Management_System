@@ -15,10 +15,12 @@ class Instructor extends Model
         'email',
         'price',
         'access_time',
+        'description',
     ];
 
     public function member()
     {
         return $this->hasMany(Member::class);
     }
+    
 }

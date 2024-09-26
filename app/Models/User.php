@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Feedback;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 
 class User extends Authenticatable
 {
@@ -21,6 +24,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'image',
+        'address',
+        'gender',
+        'age',
+        'phone',
     ];
 
     /**
@@ -41,4 +50,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function feedbacks(): HasOne
+    {
+        return $this->hasOne(Feedback::class);
+    }
+
+    public function member() {
+        return $this->hasOne(Member::class);
+    }
 }

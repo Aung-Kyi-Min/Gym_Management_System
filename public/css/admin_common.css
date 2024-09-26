@@ -1,5 +1,23 @@
+.clearfix {
+    overflow: auto;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
 .pad {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .error {
@@ -10,12 +28,120 @@
     width: 100px !important;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
+.admin-img-size {
+    width: 40px !important;
+    height: 40px !important;
+}
+
 .width-text {
     width: 350px;
     word-wrap: break-word;
 }
 
-.img-width {
+.margin-reset {
+   margin: 3px 0 0 0 !important;
+}
+
+.list-header {
+    padding: 10px;
+    color: aliceblue;
+    font-size: 20px;
+}
+
+.search-header {
+    padding: 10px 0 0 0;
+}
+
+.exim {
+    padding: 0 0 0 20px;
+}
+
+.img-width 
+{
+    width: 70px;
+    height: 70px;
+}
+
+.user_img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    float: left;
+}
+
+.user_img2 {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
+    float: right;
 }
+
+.img_upload {
+    display: none;
+}
+
+.user-panel .admin-profile-img{
+    width: 40px;
+  height: 40px;
+  border-radius: 50%;    
+}
+
+.upload {
+    margin: 40px 40px 20px 40px;
+    background-color: lightgray;
+    color: #343a40;
+    border: #343a40;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+#toggle {
+    display: none;
+}
+
+.center {
+    margin: 0 auto;
+    width: 20%;
+}
+
+.none {
+    display: none;
+}
+
+.button {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #454d55;
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+}
+
+.active {
+    background-color: whitesmoke;
+    color: #454d55;
+    border: 1px solid whitesmoke;
+}
+
+.button:hover {
+    background-color: whitesmoke;
+    color: #454d55;
+    border: 1px solid whitesmoke;
+}
+
+.dark-mode input:-webkit-autofill,
+.dark-mode input:-webkit-autofill:focus,
+.dark-mode input:-webkit-autofill:hover,
+.dark-mode select:-webkit-autofill,
+.dark-mode select:-webkit-autofill:focus,
+.dark-mode select:-webkit-autofill:hover,
+.dark-mode textarea:-webkit-autofill,
+.dark-mode textarea:-webkit-autofill:focus,
+.dark-mode textarea:-webkit-autofill:hover {
+    -webkit-text-fill-color: #000 !important;
+}
+
+

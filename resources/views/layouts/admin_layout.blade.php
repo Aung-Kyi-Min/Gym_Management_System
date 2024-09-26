@@ -15,6 +15,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="/css/admin_common.css">
+
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -49,11 +50,15 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    <img src="{{ asset('storage/images/admin/user/'.auth()->user()->image) }}" id="default-image1"  class="img-circle admin-profile-img  elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <p>Alexander Pierce</p>
+                        <p id="call2" class="pointer">{{auth()->user()->name}}</p>
+                        <form id="toggle">
+                            <a href="{{ route('logout') }}" class="btn btn-sm bg-gradient-danger">Logout</a>
+                        </form>
                     </div>
+
                 </div>
 
                 <!-- SidebarSearch Form -->
@@ -73,7 +78,15 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-header">Output Section</li>
+                        <li class="nav-item">
+                            <a href="{{route('admin.index')}}" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Admin Dashboard
+                                </p>
+                            </a>
+                        </li>
+
                         <li class="nav-item">
                             <a href="{{route('admin.user')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
@@ -106,31 +119,21 @@
                                 </p>
                             </a>
                         </li>
-
-                        <li class="nav-header">Create Section</li>
                         <li class="nav-item">
-                            <a href="{{route('admin.create_workout')}}" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
+                            <a href="{{route('admin.discount')}}" class="nav-link">
+                                <i class="nav-icon fas fa-percent "></i>
                                 <p>
-                                    Workout Create
+                                    Discount List
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('admin.create_instructor')}}" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
+                            <a href="{{route('admin.feedback')}}" class="nav-link">
+                                <i class="nav-icon fas fa-comment"></i>
                                 <p>
-                                    Instructor Create
+                                    Feedback List
                                 </p>
                             </a>
-                        </li>
-
-                        <li class="nav-header">Admin Section</li>
-                        <li class="nav-item">
-                            <form>
-                                <a href="{{route('admin.edit')}}" type="button" class="btn bg-gradient-primary">Edit</a>
-                                <button type="button" class="btn bg-gradient-danger">Logout</button>
-                            </form>
                         </li>
                     </ul>
                 </nav>
@@ -175,6 +178,19 @@
     <script src="/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="/dist/js/pages/dashboard2.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#call1 , #call2").click(function(){
+                $("#toggle").toggle(1000);
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/anchor.js"></script>
+    <script src="/js/admin.js"></script>
 </body>
 
 </html>

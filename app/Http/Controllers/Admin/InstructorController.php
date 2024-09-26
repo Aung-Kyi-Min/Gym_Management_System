@@ -1,7 +1,10 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
+use App\Exports\InstructorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InstructorCreateRequest;
 use App\Http\Requests\InstructorUpdateRequest;
@@ -10,61 +13,99 @@ use App\Contracts\Services\Admin\InstructorServiceInterface;
 class InstructorController extends Controller
 {
     private $instructorService;
-    public function __construct(InstructorServiceInterface $instructorServiceInterface) {
-        $this->instructorService = $instructorServiceInterface;
+
+    /**
+      * Create a new controller instance.
+      * @param InstructorInterface $taskServiceInterface
+      * @return void
+      */
+
+    public function __construct(InstructorServiceInterface $instructorServiceInterface)
+    {
+       $this->instructorService =  $instructorServiceInterface;
     }
 
     public function create()
     {
-        return view('admin.instructor.instructorCreate');
+      $loginuser = auth()->user();
+      return view('admin.instructor.instructorCreate' , ['loginuser' => $loginuser]);
     }
 
-    public function index() {
-        $instructors = $this->instructorService->getInstructors();
-        return view('admin.instructor.instructor', compact('instructors'));
-    }
-    
-    
+    /**
+      * Store Instructor
+      * @return void
+     */
     public function store(InstructorCreateRequest $request)
     {
-        $this->instructorService->createInstructors($request->all());
-        session()->flash('success', 'Instructor created successfully! .');
-        return redirect()->route('admin.instructor')->with('success', 'Instructor created successfully!');
+       $this->instructorService->store($request->only([
+        'name',
+        'speciality',
+        'image',
+        'email',
+        'price',
+        'access_time',
+        'description',
+       ]));
+       return redirect('/admin/instructor');
     }
 
-    public function search() 
+    /**
+     * Return Specific Instructor
+     * @return object
+    */
+    public function edit($id)
     {
-        $instructors = $this->instructorService->searchInstructor();
-        return view('admin.instructor.instructor', compact('instructors'));
+      $loginuser = auth()->user();
+      $instructor = $this->instructorService->edit($id);
+      return view('admin.instructor.instructorEdit' , ['instructor' => $instructor , 'loginuser' => $loginuser]);
     }
 
-    public function edit($id) 
-    { 
-        $instructor= $this->instructorService->getInstructorById($id);
-        return view('admin.instructor.instructorEdit',compact('instructor'));
-        
-    }
-    public function update(InstructorUpdateRequest $request, $id)
+    /**
+      * Update Instructor
+      * @return void
+     */
+    public function update(InstructorUpdateRequest $request ,$id)
     {
-        $data = $request->only([
-            'name',
-            'speciality',
-            'email',
-            'price',
-            'access_time',
-            'image',
-        ]);
-        $this->instructorService->updateInstructor($data, $id);
-        
-        return redirect()->route('admin.instructor')->with('message', 'Student updated successfully.');
-    }
-    
-    public function destory($id)
-    {
-        $this->instructorService->deleteInstructorById($id);
-        session()->flash('success', 'The instructor has been successfully deleted.');
-        return redirect()->route('admin.instructor');
+       $this->instructorService->update($id , $request->only([
+         'name',
+         'speciality',
+         'image',
+         'email',
+         'price',
+         'access_time',
+         'description',
+       ]));
+
+       return redirect('/admin/instructor');
     }
 
-    
+     /**
+     * Destroy Instructor
+     * @return void 
+    */
+    public function destroy($id)
+    {
+      $this->instructorService->destroy($id);
+      return redirect('/admin/instructor');
+    }
+
+    public function instructor(Request $request)
+    {
+        $loginuser = auth()->user();
+        $search = $request->input('search', '');
+        $instructors = $this->instructorService->search($search);
+
+        foreach ($instructors as $instructor)
+        {
+            $instructor->limitedDsec = Str::limit($instructor->description,40);
+        }
+
+        return view('admin.instructor.instructor', compact('instructors', 'search' , 'loginuser'));
+    }
+
+    public function exportInstructors()
+    {
+        return $this->instructorService->export();
+    }
+
 }

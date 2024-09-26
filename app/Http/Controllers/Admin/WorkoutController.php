@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkoutRequest;
+use App\Http\Requests\WorkoutEditRequest;
 use App\Contracts\Services\Admin\WorkoutServiceInterface;
 
 class WorkoutController extends Controller
@@ -20,19 +23,35 @@ class WorkoutController extends Controller
     {
        $this->workoutService = $workoutServiceInterface;
     }
- 
- 
-    public function workout() 
-    {
-       $workouts = $this->workoutService->get();
-       return view('admin.workout.workout' , ['workouts' => $workouts]);
-    }
- 
+
+    /**
+     * Create Workout
+     * @return void
+    */
     public function create()
     {
-       return view('admin.workout.workoutCreate');
+      $loginuser = auth()->user();
+      return view('admin.workout.workoutCreate' , ['loginuser' => $loginuser]);
     }
- 
+    
+    /**
+     * Show Workout
+     * @return object
+    */
+    public function workout(Request $request)
+    {
+      $loginuser = auth()->user();
+      $search = $request->input('search', '');
+      $workouts = $this->workoutService->search($search);
+        
+        foreach ($workouts as $workout) 
+        {
+            $workout->limitedDescription =Str::limit($workout->description, 40);
+        }
+        
+        return view('admin.workout.workout', compact('workouts', 'search' , 'loginuser'));
+    }
+
     /**
       * Store Workout
       * @return void
@@ -47,14 +66,23 @@ class WorkoutController extends Controller
        ]));
        return redirect('/admin/workout');
     }
- 
+    
+     /**
+     * Return Specific Workout
+     * @return object
+    */
     public function edit($id)
-    {
-       $workout = $this->workoutService->edit($id);
-       return view('admin.workout.workoutEdit' , ['workout' => $workout]);
+    { 
+      $loginuser = auth()->user();
+      $workout = $this->workoutService->edit($id);
+      return view('admin.workout.workoutEdit' , ['workout' => $workout , 'loginuser' => $loginuser]);
     }
- 
-    public function update(WorkoutRequest $request ,$id)
+    
+    /**
+     * Update Workout
+     * @return void
+    */
+    public function update(WorkoutEditRequest $request ,$id)
     {
        $this->workoutService->update($id , $request->only([
           'name',
@@ -64,11 +92,15 @@ class WorkoutController extends Controller
        ]));
        return redirect('/admin/workout');
     }
- 
+    
+    /**
+     * Destroy Workout
+     * @return void 
+    */
     public function destroy($id) 
     {
        $this->workoutService->destroy($id);
        return redirect('/admin/workout');
     }
- 
+
  }

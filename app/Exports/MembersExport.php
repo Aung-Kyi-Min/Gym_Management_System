@@ -22,14 +22,12 @@ class MembersExport implements FromCollection
     {
         return [
             'Id',
-            'User',
-            'Workout',
-            'Instructor',
-            'Sub_month',
-            'Joining_Date',
-            'End_Date',
-            'Created At',
-            'Updated At',
+            'user_id',
+            'workout_id',
+            'instructor_id',
+            'sub_month',
+            'joining_Date',
+            'end_Date',
         ];
     }
 
@@ -39,12 +37,10 @@ class MembersExport implements FromCollection
             $member->id,
             $member->user->name,
             $member->workout->name,
-            $member->instructor->name,
+            $member->instructor->name ?? null,
             $member->sub_month,
             $member->joining_date,
             $member->end_date,
-            $member->created_at,
-            $member->updated_at,
         ];
     }
 }

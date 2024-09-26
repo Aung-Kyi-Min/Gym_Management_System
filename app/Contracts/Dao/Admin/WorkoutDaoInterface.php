@@ -8,32 +8,44 @@ namespace App\Contracts\Dao\Admin;
 interface WorkoutDaoInterface
 {
     /**
-     * Show Workout
-     * @return object
+    * Show Workout
+    * @return object
     */
     public function get() : object;
 
     /**
-     * Store Workout
-     * @return void
+     * Show Workout for User
+     * @return object
+    */
+    public function userget(): object;
+
+    /**
+    * Store Workout
+    * @return void
     */
     public function store() : void;
 
-     /**
-     * Return Specific Workout
-     * @return object
+    /**
+    * Return Specific Workout
+    * @return object
     */
     public function edit($id) : object;
 
     /**
-     * Update Workout
-     * @return void
+    * Update Workout
+    * @return void
     */
-    public function update($id) : void;
+    public function update($id , array $data) : void;
 
-     /**
-     * Destroy Major
-     * @return void 
+    /**
+    * Destroy Workout
+    * @return void 
     */
     public function destroy($id) : void;
+
+    /**
+    * search  Workout
+    * @return object
+    */  
+    public function search($search): object;
 }

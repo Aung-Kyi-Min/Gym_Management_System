@@ -7,5 +7,14 @@ namespace App\Contracts\Services\Admin;
 */
 interface AdminServiceInterface
 {
+    /**
+     * return export users
+    */
+    public function exportuser(): object;
 
+     /**
+     * Show Workout
+     * @return object
+    */
+    public function feedback(): object;
 }

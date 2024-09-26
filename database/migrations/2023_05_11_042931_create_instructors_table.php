@@ -21,6 +21,7 @@ class CreateInstructorsTable extends Migration
             $table->string('email')->unique();
             $table->integer('price');
             $table->string('access_time');
+            $table->string('description');
             $table->timestamps();
         });
     }

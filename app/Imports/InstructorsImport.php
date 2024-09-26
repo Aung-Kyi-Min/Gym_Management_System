@@ -22,6 +22,8 @@ class InstructorsImport implements ToModel , WithHeadingRow
             'email' => $row['email'],
             'price' => $row['price'],
             'access_time' => $row['access_time'],
+            'created_at' => $row['created_at'],
+            'updated_at' => $row['updated_at'],
         ]);
     }
 }
